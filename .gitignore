@@ -1,0 +1,13 @@
+/TeacherHelper/bin
+/TeacherHelper/obj
+/TeacherHelper.Models/bin
+/TeacherHelper.Models/obj
+/TeacherHelper.Services/bin
+/TeacherHelper.Services/obj
+/.vs
+/TeacherHelper.RegistrationCreator/bin
+/TeacherHelper.RegistrationCreator/obj
+/TeacherHelper.CustomControls/bin
+/TeacherHelper.CustomControls/obj
+/packages/Microsoft.Office.Interop.Word.15.0.4797.1003
+/packages

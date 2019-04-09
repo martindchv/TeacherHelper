@@ -1,0 +1,153 @@
+﻿<Page x:Class="TeacherHelper.Pages.TestsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TeacherHelper.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Background="#D2AF99" Title="TestsPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"></ColumnDefinition>
+            <ColumnDefinition Width="8*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" x:Name="MainGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+                <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <!--moje da ima nujda ot korekciq-->
+                <RowDefinition Height="5*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1">
+                <Border BorderBrush="#DDE0EF" BorderThickness="3">
+                    <StackPanel Orientation="Horizontal" Margin="0,-2,0,2" VerticalAlignment="Center">
+                        <TextBlock Foreground="#705976" FontSize="35" FontWeight="DemiBold" Margin="10, 0, 0, 0">Тестове</TextBlock>
+                        <Border Background="#715976"
+                                CornerRadius="10"
+                                Margin="40, 0, 0, 0"
+                                MaxHeight="35"
+                                HorizontalAlignment="Center">
+                            <Button Background="Transparent"
+                                    FontSize="15"
+                                    Foreground="#DBDEEF"
+                                    MaxHeight="40"
+                                    Margin="5"
+                                    Command="{Binding CreateTestCommand}">
+                                Създаване на нов тест
+                            </Button>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1" x:Name="Catalogue">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Background="Transparent" 
+                        HorizontalAlignment="Left" 
+                        Grid.Column="0"
+                        Command="{Binding MoveTestsLeftCommand}">
+                    <!--dobavi komanda!!-->
+                    <Image Source="../Resources/left.png"/>
+                </Button>
+
+                <Border BorderThickness="0,0,0,5" BorderBrush="#AC8D8B" Grid.Column="1">
+                    <Border BorderThickness="0,5,0,0" BorderBrush="#705975">
+
+                        <ItemsControl ItemsSource="{Binding CurrentThreeTests}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="3"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="#DCDEEB"
+                                BorderThickness="5"
+                                Background="#D4AFB6">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="2*"/>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Rectangle Fill="White" />
+
+                                            <Grid Grid.Row="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="1*"/>
+                                                </Grid.RowDefinitions>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button Background="Transparent"
+                                                        Command="{Binding Path=DataContext.ViewTestCommand, ElementName=MainGrid}"
+                                                        CommandParameter="{Binding}"
+                                                        Grid.ColumnSpan="2"> 
+                                                    <TextBlock TextWrapping="Wrap"
+                                                               Text="{Binding Path=Theme.Name}"
+                                                               Foreground="#816572"
+                                                               Grid.ColumnSpan="2"
+                                                               FontSize="15"
+                                                               Margin="5"/>
+                                                </Button>
+                                                
+                                                <Border Background="#715976"
+                                                        CornerRadius="100"
+                                                        Width="35"
+                                                        Height="35"
+                                                        Grid.Row="1">
+                                                    <Image Source="{Binding Path=Author.ProfilePicture}"/>
+                                                </Border>
+
+                                                <Grid Grid.Row="1" Grid.Column="1" Margin="5">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Border BorderBrush="#715976" 
+                                                    BorderThickness="0, 0, 0, 2">
+                                                        <Viewbox>
+                                                            <TextBlock Text="{Binding Path=Author.Name}"
+                                                                       Foreground="#715976"
+                                                                       Margin="0, 0, 0, 1"/>        
+                                                        </Viewbox>
+                                                    </Border>
+
+                                                    <Viewbox Grid.Row="1" >
+                                                        <TextBlock Foreground="#715976"
+                                                                   Text="{Binding DateCreated, StringFormat=dd.MM.yyyy}" />
+                                                    </Viewbox>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </Border>
+                <Button Background="Transparent" HorizontalAlignment="Right" Grid.Column="2"
+                         Command="{Binding MoveTestsRightCommand}">
+                    <!--dobavi komanda!!-->
+                    <Image Source="../Resources/right.png"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

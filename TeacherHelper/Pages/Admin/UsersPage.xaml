@@ -1,0 +1,198 @@
+﻿<Page x:Class="TeacherHelper.Pages.Admin.UsersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:conv="clr-namespace:TeacherHelper.Converters"
+      xmlns:local="clr-namespace:TeacherHelper.Pages.Admin"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="UsersPage">
+
+    <Page.Resources>
+        <conv:BoolToAdminConverter x:Key="AdminTextConverter"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+        <conv:ReversedBoolToVisibilityConverter x:Key="ReversedBoolToVisibility"/>
+        <conv:NullToVisibilityConverter x:Key="NullToVisibility"/>
+    </Page.Resources>
+
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" Background="#28152D">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Margin="10, 5, 10, 0" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" BorderBrush="#EEF5FF" BorderThickness="0, 0, 0, 2" >
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="40, 0, 0, 0">
+                            <TextBlock Foreground="#D4AFB5" FontSize="40">Потребители</TextBlock>
+                            <Button Background="Transparent" 
+                                    Margin="10" 
+                                    MaxHeight="35" 
+                                    Command="{Binding CreateEditUserCommand}">
+                                <Image Source="../../Resources/plus_icon.png"></Image>
+                            </Button>
+                        </StackPanel>
+                        <Border Grid.Row="1" 
+                                BorderBrush="#DBDEEF" 
+                                BorderThickness="4" 
+                                Margin="30, 10, 30, 30" 
+                                Visibility="{Binding CurrentUser, Converter={StaticResource NullToVisibility}}">
+                            <Border Background="#715976" CornerRadius="20">
+                                <StackPanel Margin="10" Orientation="Vertical">
+                                    <Canvas>
+                                        <Border Background="#DBDEEF" 
+                                                CornerRadius="2" 
+                                                Canvas.Right="-15" 
+                                                Canvas.Top="-15" 
+                                                Padding="2">
+                                            <Button Background="Transparent" 
+                                                    MaxHeight="25" 
+                                                    Command="{Binding CancelEditCommand}">
+                                                <Image Source="../../Resources/delete_icon.png"/>
+                                            </Button>
+                                        </Border>
+                                    </Canvas>
+                                    <Border BorderBrush="#220F27" 
+                                            BorderThickness="0, 0, 0, 2" 
+                                            Padding="5, 0, 5, 2">
+                                        <TextBox Background="Transparent" 
+                                                 Style="{StaticResource TextboxPlaceHolder}" 
+                                                 Tag="Потребителско име" 
+                                                 FontSize="20" 
+                                                 Foreground="#4D3852" 
+                                                 BorderThickness="0" 
+                                                 Margin="5" 
+                                                 Text="{Binding Path=CurrentUser.Username}"/>
+                                    </Border>
+                                    <Border BorderBrush="#220F27" BorderThickness="0, 0, 0, 2" Padding="5, 0, 5, 2">
+                                        <StackPanel Orientation="Vertical">
+                                            <Border BorderBrush="#D4AFB5" BorderThickness="0, 0, 0, 2" Margin="5">
+                                                <TextBox Background="#DBDEEF" 
+                                                         FontSize="20" 
+                                                         Style="{StaticResource TextboxPlaceHolder}" 
+                                                         Text="{Binding Path=CurrentUser.Name}" 
+                                                         Tag="Име и фамилия"/>
+                                            </Border>
+                                            <Border BorderBrush="#D4AFB5" BorderThickness="0, 0, 0, 2" Margin="5">
+                                                <TextBox Background="#DBDEEF" FontSize="20" Style="{StaticResource TextboxPlaceHolder}" Text="{Binding Path=CurrentUser.Email}" Tag="Имейл"/>
+                                            </Border>
+                                            <Border BorderBrush="#D4AFB5" BorderThickness="0, 0, 0, 2" Margin="5">
+                                                <TextBox Background="#DBDEEF" FontSize="20" Style="{StaticResource TextboxPlaceHolder}" Text="{Binding Path=CurrentUser.Password}" Tag="Парола"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="#220F27" BorderThickness="0, 0, 0, 2" Padding="5, 5, 5, 5" Height="30">
+                                        <Viewbox HorizontalAlignment="Left">
+                                            <CheckBox Foreground="#6DBFD7" IsChecked="{Binding Path=CurrentUser.IsAdmin}">Администратор</CheckBox>
+                                        </Viewbox>
+                                    </Border>
+                                    <Grid>
+                                        <ComboBox ItemsSource="{Binding SubjectsToShow}" MaxWidth="250" Margin="10" DisplayMemberPath="Name" SelectedItem="{Binding SelectedSubject}"/>
+                                        <TextBlock  DataContext="{Binding ElementName=ThemeCombobox,Path=SelectedItem}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Добави предмет" Style="{StaticResource ComboBoxPlaceholder}" Margin="2" />
+                                    </Grid>
+                                    <ItemsControl ItemsSource="{Binding Path=CurrentUser.Subjects}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Background="Transparent" 
+                                                            MaxHeight="10" 
+                                                            Margin="5"
+                                                            Command="{Binding ElementName=MainGrid, Path=DataContext.RemoveSubjectFromUserCommand}"
+                                                            CommandParameter="{Binding}">
+                                                        <Image Source="../../Resources/delete_icon.png"/>
+                                                    </Button>
+                                                    <TextBlock Text="{Binding Name}" FontSize="15" Foreground="#6DBFD7"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Canvas>
+                                        <Border Background="#DBDEEF" CornerRadius="2" Canvas.Right="-15" Canvas.Top="-15" Padding="2">
+                                            <Button Background="Transparent" MaxHeight="25" Command="{Binding SaveUserCommand}">
+                                                <Image Source="../../Resources/save_icon.png"/>
+                                            </Button>
+                                        </Border>
+                                    </Canvas>
+                                </StackPanel>
+                            </Border>
+                        </Border>
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40, 0, 0, 0">
+                    <Viewbox MaxHeight="40">
+                        <TextBox Style="{StaticResource TextboxPlaceHolder}" Tag="Търсене..." Background="Transparent" BorderThickness="0, 0, 0, 1" BorderBrush="#EEF5FF" Width="150" Foreground="#D4AFB5" Text="{Binding SearchText}"/>
+                    </Viewbox>
+                    <Button Background="Transparent" Margin="10" MaxHeight="30" Command="{Binding SearchUserCommand}">
+                        <Image Source="../../Resources/search_icon.png"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" Grid.Column="1" Grid.Row="1" Margin="45, 10, 45, 0">
+                <ItemsControl ItemsSource="{Binding UsersToDisplay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" Margin="0" BorderBrush="#D4AFB5" MinHeight="50">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="1.3*"/>
+                                        <ColumnDefinition Width="0.7*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Background="#D2AF99" MaxHeight="40" MaxWidth="40" Margin="5">
+                                        <Image Source="{Binding ProfilePicture}"/>
+                                    </Border>
+                                    <TextBlock FontSize="20" Foreground="#DBDEEF" Margin="5" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}"/>
+                                    <TextBlock FontSize="20" Foreground="#DBDEEF" Margin="5" VerticalAlignment="Center" Grid.Column="2" Text="{Binding Username}"/>
+                                    <TextBlock FontSize="20" Foreground="#DBDEEF" Margin="5" VerticalAlignment="Center" Grid.Column="3" Text="{Binding Email}"/>
+                                    <TextBlock FontSize="20" Foreground="#DBDEEF" Margin="5" VerticalAlignment="Center" Grid.Column="4" Text="{Binding IsAdmin, Converter={StaticResource AdminTextConverter}}"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="5">
+                                        <Button Background="Transparent" MaxHeight="20" Command="{Binding Path=DataContext.CreateEditUserCommand, ElementName=MainGrid}" CommandParameter="{Binding}">
+                                            <Image Source="../../Resources/edit_icon.png"/>
+                                        </Button>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Background="Transparent" MaxHeight="20" Margin="5, 0, 0, 0" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibility}}" Command="{Binding ElementName=MainGrid, Path=DataContext.DeleteUserCommand}" CommandParameter="{Binding}">
+                                                <Image Source="../../Resources/delete_icon.png"/>
+                                            </Button>
+
+                                            <Button Background="Transparent" MaxHeight="20" Margin="5, 0, 0, 0" Visibility="{Binding IsActive, Converter={StaticResource ReversedBoolToVisibility}}" Command="{Binding ElementName=MainGrid, Path=DataContext.RestoreUserCommand}" CommandParameter="{Binding}">
+                                                <Image Source="../../Resources/restore_icon.png"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

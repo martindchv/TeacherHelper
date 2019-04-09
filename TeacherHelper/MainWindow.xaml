@@ -1,0 +1,26 @@
+﻿<Window x:Class="TeacherHelper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeacherHelper"
+        mc:Ignorable="d"
+        Title="Teacher helper" Height="600" Width="800" MinHeight="600" MinWidth="640"
+        Loaded="Window_Loaded">
+    <Grid Background="#D2AF99">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="0" 
+               Grid.RowSpan="2" 
+               Source="Pages/NavigationBar.xaml" 
+               Name="navBar" 
+               MaxHeight="400" 
+               VerticalAlignment="Top" 
+               Panel.ZIndex="1" 
+               Visibility="Collapsed" />
+
+        <Frame Grid.Row="1" NavigationUIVisibility="Hidden" Name="mainFrame" Source="Pages/LoginPage.xaml"/>
+    </Grid>
+</Window>

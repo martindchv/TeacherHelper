@@ -1,0 +1,7 @@
+Scaffold-DbContext "server=217.182.77.42;port=3306;database=TeacherHelper;user=teacherhelper;password=HljmCoOw4dbw1G7F" MySql.Data.EntityFrameworkCore -Context TeacherHelperContext -OutputDir Models -f
+
+using System.Configuration;
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+	optionsBuilder.UseMySQL(ConfigurationManager.ConnectionStrings["TeacherHelperDb"].ConnectionString);
+}
